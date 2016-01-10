@@ -23,16 +23,16 @@ def main():
     
     if not os.path.isfile(os.path.join(args.path, "letsencrypt.key")):
         key = certificate.createKeyPair()
-        with open(os.path.join(args.path, "letsencrypt.key"), "wt") as fich:
+        with open(os.path.join(args.path, "letsencrypt.key"), "wb") as fich:
             fich.write(certificate.dumpKey(key))
 
     if not os.path.isfile(os.path.join(args.path, args.domain)+".key"):
         key = certificate.createKeyPair()
         request = certificate.createCertRequest(key, args.domain)
-        with open(os.path.join(args.path, args.domain) + ".key", "wt") as fich:
+        with open(os.path.join(args.path, args.domain) + ".key", "wb") as fich:
             fich.write(certificate.dumpKey(key))
 
-        with open(os.path.join(args.path, args.domain) + ".csr", "wt") as fich:
+        with open(os.path.join(args.path, args.domain) + ".csr", "wb") as fich:
             fich.write(certificate.dumpCsr(request))
 
     key = parser.importRSA(os.path.join(args.path, "letsencrypt.key"))
@@ -44,7 +44,7 @@ def main():
     acme.challenge_done(key, challenge['uri'], key_auth)
     acme.wait_verification(challenge['uri'])
     result = acme.get_certificate(key, csr)
-    with open(os.path.join(args.path, args.domain)+".crt", "w") as fich:
+    with open(os.path.join(args.path, args.domain)+".crt", "wt") as fich:
         fich.write(result)
 
 

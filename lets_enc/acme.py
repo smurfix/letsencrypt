@@ -4,7 +4,7 @@ import base64
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256
 import copy
-import parser
+from . import parser
 import os
 import time
 from . import certificate
@@ -18,7 +18,9 @@ def b64(text):
 
 
 def get_nonce():
-    return requests.get(CA + "/directory").headers['Replay-Nonce']
+    resp = requests.head(CA + "/directory")
+    resp.raise_for_status()
+    return resp.headers['Replay-Nonce']
 
 
 def _send_signed_request(key, url, payload):
@@ -30,13 +32,13 @@ def _send_signed_request(key, url, payload):
     cipher = PKCS1_v1_5.new(key)
     hash = SHA256.new("{0}.{1}".format(header_copy, payload).encode('utf8'))
     signature = cipher.sign(hash)
-    data = json.dumps({
+    data = {
         "header": header, "protected": header_copy,
         "payload": payload, "signature": b64(signature),
-    })
+    }
     try:
-        resp = requests.get(url, data.encode('utf8'))
-        return resp.getcode(), resp.read()
+        resp = requests.post(url, data=json.dumps(data))
+        return resp.status_code, resp.content
     except IOError as e:
         return e.code, e.read()
 
@@ -76,7 +78,7 @@ def get_challenge(key, domain, log):
     })
     if code != 201:
         raise ValueError("Error requesting challenges: {0} {1}".format(code, result))
-    for chg in json.loads(result.decode('utf8'))['challenges']:
+    for chg in json.loads(result.decode('utf-8'))['challenges']:
         if chg['type'] == "http-01":
             return chg
 
@@ -104,12 +106,9 @@ def challenge_done(key, url, keyauth):
 
 def wait_verification(url):
     while True:
-        try:
-            resp = requests.get(url)
-            challenge_status = json.loads(resp.read().decode('utf8'))
-        except IOError as e:
-            raise ValueError("Error checking challenge: {0} {1}".format(
-                e.code, json.loads(e.read().decode('utf8'))))
+        resp = requests.get(url)
+        resp.raise_for_status()
+        challenge_status = resp.json()
         if challenge_status['status'] == "pending":
             time.sleep(2)
         elif challenge_status['status'] == "valid":
