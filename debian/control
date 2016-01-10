@@ -1,0 +1,12 @@
+Source: lets-enc
+Maintainer: Matthias Urlichs <matthias@urlichs.de>
+Section: python
+Priority: optional
+Build-Depends: python3-setuptools, python3-all, debhelper (>= 9)
+Standards-Version: 3.9.1
+
+Package: python3-lets-enc
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: Simple Let's Encrypt client
+
