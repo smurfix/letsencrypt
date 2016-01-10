@@ -4,6 +4,7 @@ Section: python
 Priority: optional
 Build-Depends: python3-setuptools, python3-all, debhelper (>= 9)
 Standards-Version: 3.9.1
+X-Python3-Version: >= 3.3
 
 Package: python3-lets-enc
 Architecture: all

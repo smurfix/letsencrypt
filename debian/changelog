@@ -1,3 +1,9 @@
+lets-enc (0.1.4-3) unstable; urgency=medium
+
+  * Request py>3.3
+
+ -- Matthias Urlichs <matthias@urlichs.de>  Sun, 10 Jan 2016 12:42:06 +0100
+
 lets-enc (0.1.4-2) unstable; urgency=medium
 
   * Debian packaging requirements
