@@ -1,0 +1,8 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
+Source: https://github.com/smurfix/letsencrypt
+
+Files: *
+Copyright: 2015 Joel Sevilleja <joel@jsevilleja.org>
+           2016 Matthias Urlichs <matthias@urlichs.de>
+License: GPL-2
+
