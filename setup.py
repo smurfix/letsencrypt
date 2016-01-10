@@ -21,7 +21,7 @@ setuptools.setup(
     name="lets_enc",
     version=read_version(),
     packages=setuptools.find_packages(),
-    install_requires=['Crypto'],
+    install_requires=['Crypto','requests','openssl'],
 
     # metadata for upload to PyPI
     author="Matthias Urlichs",
