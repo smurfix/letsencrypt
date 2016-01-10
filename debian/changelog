@@ -1,4 +1,10 @@
-lets-enc (0.1.1-1) smurf; urgency=low
+lets-enc (0.1.2-1) unstable; urgency=medium
+
+  * Fix script names
+
+ -- Matthias Urlichs <matthias@urlichs.de>  Sun, 10 Jan 2016 12:09:43 +0100
+
+lets-enc (0.1.1-1) unstable; urgency=low
 
   * source package automatically created by stdeb 0.8.2
 
