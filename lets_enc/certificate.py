@@ -18,11 +18,11 @@ def createCertRequest(pkey, name, digest="sha256"):
     req = crypto.X509Req()
 
     subject = req.get_subject()
-    subject.C = C
-    subject.ST = ST
-    subject.L = L
-    subject.O = O
-    subject.OU = OU
+    #subject.C = C
+    #subject.ST = ST
+    #subject.L = L
+    #subject.O = O
+    #subject.OU = OU
     subject.CN = name
 
     req.set_pubkey(pkey)
