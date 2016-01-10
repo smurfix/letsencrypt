@@ -1,5 +1,5 @@
+import requests
 import json
-from urllib2 import urlopen
 import base64
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256
@@ -7,7 +7,7 @@ import copy
 import parser
 import os
 import time
-import certificate
+from . import certificate
 import textwrap
 
 CA = "https://acme-v01.api.letsencrypt.org"
@@ -18,7 +18,7 @@ def b64(text):
 
 
 def get_nonce():
-    return urlopen(CA + "/directory").headers['Replay-Nonce']
+    return requests.get(CA + "/directory").headers['Replay-Nonce']
 
 
 def _send_signed_request(key, url, payload):
@@ -35,7 +35,7 @@ def _send_signed_request(key, url, payload):
         "payload": payload, "signature": b64(signature),
     })
     try:
-        resp = urlopen(url, data.encode('utf8'))
+        resp = requests.get(url, data.encode('utf8'))
         return resp.getcode(), resp.read()
     except IOError as e:
         return e.code, e.read()
@@ -105,7 +105,7 @@ def challenge_done(key, url, keyauth):
 def wait_verification(url):
     while True:
         try:
-            resp = urlopen(url)
+            resp = requests.get(url)
             challenge_status = json.loads(resp.read().decode('utf8'))
         except IOError as e:
             raise ValueError("Error checking challenge: {0} {1}".format(
