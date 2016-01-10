@@ -9,4 +9,9 @@ Package: python3-lets-enc
 Architecture: all
 Depends: ${misc:Depends}, ${python3:Depends}
 Description: Simple Let's Encrypt client
-
+ This is a simple, no-frills client for Let's Encrypt.
+ .
+ It will not set up a directory to server your domain's
+ .well-known/lets-encrypt/ URL, that's up to you.
+ .
+ Nor will it manage key permissions and whatnot.

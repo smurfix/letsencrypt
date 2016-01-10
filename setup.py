@@ -15,7 +15,7 @@ def read_version():
             if match is not None:
                 return match.group(1)
         else:
-            raise RuntimeError('Cannot find version in callme/__init__.py')
+            raise RuntimeError('Cannot find version in lets_enc/__init__.py')
 
 setuptools.setup(
     name="lets_enc",
@@ -27,10 +27,18 @@ setuptools.setup(
     author="Matthias Urlichs",
     author_email="matthias@urlichs.de",
     description="Simple Let's Encrypt client",
+    long_description="""\
+This is a simple, no-frills client for Let's Encrypt,
+including a script and a Python module to do the actual work.
+
+It will not set up a directory to server your domain's
+.well-known/lets-encrypt/ URL, that's up to you.
+Nor will it manage key permissions and whatnot.
+""",
     keywords="letsencrypt",
     platforms=["any"],
-    scripts=["letsencrypt"],
-    url="http://packages.python.org/letsenc",
+    scripts=["scripts/lets_enc"],
+    url="http://packages.python.org/lets_enc",
     license='GPLv2',
     classifiers=[
         "Development Status :: 4 - Beta",
