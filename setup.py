@@ -29,6 +29,7 @@ setuptools.setup(
     description="Simple Let's Encrypt client",
     keywords="letsencrypt",
     platforms=["any"],
+    scripts=["letsencrypt"],
     url="http://packages.python.org/letsenc",
     license='GPLv2',
     classifiers=[
