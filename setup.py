@@ -37,7 +37,7 @@ Nor will it manage key permissions and whatnot.
 """,
     keywords="letsencrypt",
     platforms=["any"],
-    scripts=["scripts/lets_enc"],
+    scripts=["scripts/lets-enc"],
     url="http://packages.python.org/lets_enc",
     license='GPLv2',
     classifiers=[
