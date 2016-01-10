@@ -1,0 +1,33 @@
+.TH lets-enc 1
+.SH NAME
+lets-enc \- simple, no-frills Let's Encrypt client
+.SH SYNOPSIS
+.B lets-enc
+\fB\-\-path\fR \fIpath\fR
+\fB\-\-domain\fR \fIdomain\fR
+\fB\-\-acme-dir\fR \fIpath\fR
+.SH DESCRIPTION
+.B lets-enc
+requests a SSL certificate from Let's Encrypt and saves it.
+.PP
+It requires a directory which is served by your web server when it receives
+a request for a
+.B /.well-known/lets-encrypt/
+URL.
+.SH OPTIONS
+All options are mandatory.
+.TP
+.BR \-\-path =\fIPATH\fR
+.RS
+Directory where the master key and the domain's data are to be stored.
+.RE
+.PP
+.BR \-\-acme-dir =\fIPATH\fR
+.RS
+Directory which the web server uses for /.well-known/lets-encrypt/ URLs.
+.RE
+.PP
+.BR \-\-domain =\fIDOMAIN\fR
+.RS
+The domain for which you want a certificate.
+.RE
