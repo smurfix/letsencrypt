@@ -51,9 +51,8 @@ def main():
         with open(os.path.join(args.path, "intermediate.pem"), "rt") as t:
             fich.write(t.read())
         fich.write(result)
-    
 
-
+    os.unlink(os.path.join(args.acme_dir, challenge['token']))
 
 
 if __name__ == "__main__":
