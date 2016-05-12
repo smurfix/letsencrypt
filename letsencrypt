@@ -47,6 +47,12 @@ def main():
     with open(os.path.join(args.path, args.domain)+".crt", "wt") as fich:
         fich.write(result)
 
+    with open(os.path.join(args.path, args.domain)+".pem", "wt") as fich:
+        with open(os.path.join(args.path, "intermediate.pem"), "rt") as t:
+            fich.write(t.read())
+        fich.write(result)
+    
+
 
 
 
