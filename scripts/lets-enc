@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import argparse
 import logging
@@ -47,7 +47,12 @@ def main():
     with open(os.path.join(args.path, args.domain)+".crt", "wt") as fich:
         fich.write(result)
 
+    with open(os.path.join(args.path, args.domain)+".pem", "wt") as fich:
+        with open(os.path.join(args.path, "intermediate.pem"), "rt") as t:
+            fich.write(t.read())
+        fich.write(result)
 
+    os.unlink(os.path.join(args.acme_dir, challenge['token']))
 
 
 if __name__ == "__main__":
