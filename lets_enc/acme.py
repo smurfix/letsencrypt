@@ -83,14 +83,15 @@ def get_challenge(key, domain, log):
             return chg
 
 
-def token2file(key, token, path):
+def token2file(key, token, path=None):
     header = generate_header(key)
     account_key = json.dumps(header['jwk'], sort_keys=True, separators=(',', ':'))
     thumbprint = b64(SHA256.new(account_key.encode('utf8')).digest())
     key_auth = "{0}.{1}".format(token, thumbprint)
-    path = os.path.join(path, token)
-    with open(path, "w") as fich:
-        fich.write(key_auth)
+    if path is not None:
+        path = os.path.join(path, token)
+        with open(path, "w") as fich:
+            fich.write(key_auth)
     return key_auth
 
 
