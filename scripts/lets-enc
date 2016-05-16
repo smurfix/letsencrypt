@@ -11,7 +11,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("-p","--path", required=False, help="Path where certificate files are/will be stored")
 arg_parser.add_argument("-d","--domain", required=True, help="The domain to be signed")
 arg_parser.add_argument("--acme-dir", required=True, help="path to the .well-known/acme-challenge/ directory")
-arg_parser.add_argument("-t","--lifetime", type=int, required=False, help="Minimum remaining cert lifetime")
+arg_parser.add_argument("-t","--lifetime", type=float, required=False, help="Minimum remaining cert lifetime (days)")
 
 args = arg_parser.parse_args()
 
@@ -27,7 +27,7 @@ d={}
 if args.path:
     d['path'] = args.path
 if args.lifetime:
-    d['lifetime'] = args.lifetime
+    d['lifetime'] = args.lifetime*3600*24
 c,k,d = get_cert(args.domain, store_challenge, **d)
 print("CERTFILE",c)
 print("KEYFILE",k)

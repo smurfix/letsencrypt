@@ -1,3 +1,9 @@
+lets-enc (0.1.4-6) unstable; urgency=medium
+
+  * Lifetime in days, please
+
+ -- Matthias Urlichs <matthias@urlichs.de>  Mon, 16 May 2016 16:05:41 +0200
+
 lets-enc (0.1.4-5) unstable; urgency=medium
 
   * Actually test and debug the script
