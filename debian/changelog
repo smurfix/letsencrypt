@@ -1,3 +1,9 @@
+lets-enc (0.1.4-7) unstable; urgency=medium
+
+  * Doc update
+
+ -- Matthias Urlichs <matthias@urlichs.de>  Mon, 16 May 2016 16:13:10 +0200
+
 lets-enc (0.1.4-6) unstable; urgency=medium
 
   * Lifetime in days, please

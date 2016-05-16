@@ -33,17 +33,23 @@ def get_lifetime(cert):
     
 def get_cert(domain, handler, lifetime=24*3600, path="/etc/letsencrypt/keys"):
     """\
-        Returns the (certificate,key,expiry) filename pair for `domain`.
+        Returns the (certificate,key,expiry) triple for `domain`.
         `path` is where the secrets are kept.
         `handler` is a two-argument function(name,data) which arranges to
         serve `data` at http://`domain`/.well-known/acme-challenge/`name`.
         When `data` is `None`, the file should no longer be server.
 
-        `lifetime` is the minimum lifetime of an existing certificate. If
-        it expires after that many seconds, it will be returned as-is,
-        otherwise a new cert will be generated.
-        `expiry` is the time in seconds after which the key will expire.
-        You should 
+        `lifetime` is the minimum lifetime of the existing certificate. If
+        it expires after more than that many seconds, it will be returned
+        as-is, otherwise a new cert will be requested.
+
+        `certificate` and `key` are paths to the files containing the
+        certificate (including intermediate certs) and the corresponding
+        private key.
+        `expiry` is the time in seconds after which the certificate should be
+        renewed, i.e. the lifetime has already been subtracted. The value
+        can thus directly be passed to a suitable delay function.
+        
         """
     pem = os.path.join(path, domain)+".pem"
     key = os.path.join(path, domain)+".key"
