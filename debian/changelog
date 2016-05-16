@@ -1,3 +1,9 @@
+lets-enc (0.1.4-5) unstable; urgency=medium
+
+  * Actually test and debug the script
+
+ -- Matthias Urlichs <matthias@urlichs.de>  Mon, 16 May 2016 16:00:39 +0200
+
 lets-enc (0.1.4-4) unstable; urgency=medium
 
   * Fix script, repackage for Py2+3
