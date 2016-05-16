@@ -1,12 +1,11 @@
 #!/usr/bin/python
+from __future__ import print_function,division
 
 import argparse
 import logging
 import os
 
-from lets_enc import certificate
-from lets_enc import acme
-from lets_enc import parser
+from lets_enc import get_cert
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("-p","--path", required=False, help="Path where certificate files are/will be stored")
@@ -16,21 +15,21 @@ arg_parser.add_argument("-t","--lifetime", type=int, required=False, help="Minim
 
 args = arg_parser.parse_args()
 
-def chall(path,data=None):
+def store_challenge(path,data=None):
     path = os.path.join(args.acme_dir,path)
-    if data is None:
-        os.unlink(path)
-    else:
+    if data is not None:
         with open(path,"wb") as f:
             f.write(data)
+    else:
+        os.unlink(path)
 
 d={}
 if args.path:
     d['path'] = args.path
 if args.lifetime:
     d['lifetime'] = args.lifetime
-c,k,d = get_cert(args.domain, chall, **d)
-print("CERT",c)
-print("KEY",k)
-print("EXPIRY",d/3600/24)
+c,k,d = get_cert(args.domain, store_challenge, **d)
+print("CERTFILE",c)
+print("KEYFILE",k)
+print("EXPIRES", "%.1f"%(d/3600/24-0.5)) # round down
 

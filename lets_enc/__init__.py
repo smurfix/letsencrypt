@@ -22,14 +22,13 @@ def get_lifetime(cert):
         try:
             with open(cert,'rb') as f:
                 cert = f.read()
-        except OSError:
+        except (IOError,OSError):
             return 0
     cert = crypto.load_certificate(crypto.FILETYPE_PEM, cert)
     d = cert.get_notAfter()
-    d = datetime.strptime(date,"%Y%m%d%H%M%SZ")
-    import pdb;pdb.set_trace()
+    d = datetime.strptime(d,"%Y%m%d%H%M%SZ")
     d -= epoch
-    return td.days*86400 + td.seconds + td.microseconds/10**6
+    return d.days*86400 + d.seconds + d.microseconds/10**6
 
     
 def get_cert(domain, handler, lifetime=24*3600, path="/etc/letsencrypt/keys"):
@@ -49,8 +48,9 @@ def get_cert(domain, handler, lifetime=24*3600, path="/etc/letsencrypt/keys"):
     pem = os.path.join(path, domain)+".pem"
     key = os.path.join(path, domain)+".key"
     csr = os.path.join(path, domain)+".csr"
+    crt = os.path.join(path, domain)+".crt"
 
-    t = get_lifetime(pem)-time.time()-lifetime
+    t = get_lifetime(crt)-time.time()-lifetime
     if t > 0 and os.path.exists(key):
         return pem,key,t
 
@@ -74,14 +74,14 @@ def get_cert(domain, handler, lifetime=24*3600, path="/etc/letsencrypt/keys"):
 
     acme.register_account(master_key, log)
     challenge = acme.get_challenge(master_key, domain, log)
-    key_auth = acme.token2file(master_key, challenge['token'], args.acme_dir)
+    key_auth = acme.token2file(master_key, challenge['token'])
     handler(challenge['token'],key_auth)
 
-    acme.challenge_done(key, challenge['uri'], key_auth)
+    acme.challenge_done(master_key, challenge['uri'], key_auth)
     acme.wait_verification(challenge['uri'])
-    result = acme.get_certificate(key, csr)
+    result = acme.get_certificate(master_key, csr)
 
-    with open(os.path.join(path, domain)+".crt", "wt") as f:
+    with open(crt, "wt") as f:
         f.write(result)
 
     with open(pem, "wt") as f:
@@ -90,14 +90,15 @@ def get_cert(domain, handler, lifetime=24*3600, path="/etc/letsencrypt/keys"):
         if t-time.time() < lifetime:
             r = requests.get("https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem")
             i = r.text
-            with open(ifile,'wt') as t:
+            with open(ipath,'wt') as t:
                 t.write(i)
         else:
-            with open(ifile,'rt') as t:
+            with open(ipath,'rt') as t:
                 i = t.read()
         f.write(i)
         f.write(result)
 
     handler(challenge['token'])
-    return pem,
+    t = get_lifetime(crt)-time.time()-lifetime
+    return pem,key,t
 
